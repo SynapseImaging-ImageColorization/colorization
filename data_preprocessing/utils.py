@@ -43,6 +43,7 @@ def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
 
 
 def template_matching(image, template):
+    original_shape = image.shape
     template = cv2.Canny(template, 50, 200)
     (tH, tW) = template.shape[:2]
 
@@ -71,4 +72,7 @@ def template_matching(image, template):
     (_, maxLoc, r) = found
     (startX, startY) = (int(maxLoc[0] * r), int(maxLoc[1] * r))
     (endX, endY) = (int((maxLoc[0] + tW) * r), int((maxLoc[1] + tH) * r))
-    cv2.rectangle(image, (startX, startY), (endX, endY), (0, 0, 255), 2)
+    cropped = image[startY:endY, startX:endX]
+    cropped = image_resize(cropped, width=original_shape[1], height=original_shape[0])
+
+    return cropped
