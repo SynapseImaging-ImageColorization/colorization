@@ -16,6 +16,8 @@ def main():
     for i in range(1000):
         color = cv2.imread(f'{COLOR_PATH}/{color_files[i]}')
         gray = cv2.imread(f'{GRAY_PATH}/{gray_files[i]}')
+        
+        color = utils.template_matching(color, gray)
 
         color = cv2.resize(color, (128, 128), interpolation=cv2.INTER_AREA)
 
